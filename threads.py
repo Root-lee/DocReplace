@@ -31,7 +31,11 @@ class BigWorkThread(QtCore.QThread):
     def getallfile(self,path):
         import win32com ,os
         from win32com.client import Dispatch, constants
-        w = win32com.client.Dispatch('Word.Application')
+        
+        if ((self.filetype == ".xls") | (self.filetype == ".xlsx")):
+            w = win32com.client.Dispatch('Excel.Application')
+        else:
+            w = win32com.client.Dispatch('Word.Application')
         # w = win32com.client.DispatchEx('Word.Application')
         count=0
         filenum=0.0
@@ -65,26 +69,33 @@ class BigWorkThread(QtCore.QThread):
                     
                  #   if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
                   #      os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
-                   
-                    doc = w.Documents.Open( FileName = filenamein )
-            
-                
-                    # 正文文字替换
-                    w.Selection.Find.ClearFormatting()
-                    w.Selection.Find.Replacement.ClearFormatting()
-                    w.Selection.Find.Execute(self.OldStr, False, False, False, False, False, True, 1,
-                    True, self.NewStr, 2)
-                    # 页眉文字替换
-                    w.ActiveDocument.Sections[0].Headers[0].Range.Find.ClearFormatting()
-                    w.ActiveDocument.Sections[0].Headers[0].Range.Find.Replacement.ClearFormatting()
-                    w.ActiveDocument.Sections[0].Headers[0].Range.Find.Execute(self.OldStr, False,
-                    False, False, False, False, True, 1, False, self.NewStr, 2)
+                    if ((self.filetype == ".xls") | (self.filetype == ".xlsx")):
+                        workbook = w.Workbooks.Open(filenamein)
+                        #doc = w.Documents.Open( FileName = filenamein )
+                        w.Cells.Select
+                        #w.Selection.Find.Replacement.ClearFormatting()
+                        w.Selection.Replace( self.OldStr, self.NewStr)
+
+                        workbook.Save()
+                        workbook.Close(SaveChanges=True)
+                    else:    
+                        doc = w.Documents.Open( FileName = filenamein )
+                        # 正文文字替换
+                        w.Selection.Find.ClearFormatting()
+                        w.Selection.Find.Replacement.ClearFormatting()
+                        w.Selection.Find.Execute(self.OldStr, False, False, False, False, False, True, 1,
+                        True, self.NewStr, 2)
+                        # 页眉文字替换
+                        w.ActiveDocument.Sections[0].Headers[0].Range.Find.ClearFormatting()
+                        w.ActiveDocument.Sections[0].Headers[0].Range.Find.Replacement.ClearFormatting()
+                        w.ActiveDocument.Sections[0].Headers[0].Range.Find.Execute(self.OldStr, False,
+                        False, False, False, False, True, 1, False, self.NewStr, 2)
 
 
-                    # 关闭
-                    #doc.SaveAs(filenameout)
-                    doc.Save()
-                    doc.Close()
+                        # 关闭
+                        #doc.SaveAs(filenameout)
+                        doc.Save()
+                        doc.Close()
                  
                     count=count+1
                     j = int(count/filenum*100)
@@ -105,6 +116,12 @@ class BigWorkThread(QtCore.QThread):
             doctype='.doc'
         elif doctypeinput == 2:
             doctype='.docx'
+        elif doctypeinput == 3:
+            doctype='.xls'
+        elif doctypeinput == 4:
+            doctype='.xlsx'
+        elif doctypeinput == 5:
+            doctype='.txt'
         else :
             doctype='.docfhhfd'
         return doctype

@@ -27,7 +27,7 @@ except AttributeError:
 class Ui_Dialog(QtGui.QWidget):
     def  __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
-        self.txt = u"- - - - - - - - - - - - - - - - - - - - -\n- Word文档批量替换工具1.1   ---Root lee \n- - - - - - - - - - - - - - - - - - - - -\n"
+        self.txt = u"- - - - - - - - - - - - - - - - - - - - -\n- 文档批量替换工具2.0   ---Root lee \n- - - - - - - - - - - - - - - - - - - - -\n"
         self.setupUi(self)
         self.retranslateUi(self)
         self.setWindowIcon(QtGui.QIcon('Word.png'))
@@ -43,9 +43,15 @@ class Ui_Dialog(QtGui.QWidget):
         self.radioButton_2 = QtGui.QRadioButton(Dialog)
         self.radioButton_2.setGeometry(QtCore.QRect(20, 50, 351, 16))
         self.radioButton_2.setObjectName(_fromUtf8("radioButton_2"))
-
-        
-        
+        self.radioButton_3 = QtGui.QRadioButton(Dialog)
+        self.radioButton_3.setGeometry(QtCore.QRect(100, 30, 351, 16))
+        self.radioButton_3.setObjectName(_fromUtf8("radioButton_3"))
+        self.radioButton_4 = QtGui.QRadioButton(Dialog)
+        self.radioButton_4.setGeometry(QtCore.QRect(100, 50, 351, 16))
+        self.radioButton_4.setObjectName(_fromUtf8("radioButton_4"))        
+        self.radioButton_5 = QtGui.QRadioButton(Dialog)
+        self.radioButton_5.setGeometry(QtCore.QRect(180, 30, 351, 16))
+        self.radioButton_5.setObjectName(_fromUtf8("radioButton_3"))        
         
         self.progressBar = QtGui.QProgressBar(Dialog)
         self.progressBar.setGeometry(QtCore.QRect(10, 190, 391, 23))
@@ -104,14 +110,16 @@ class Ui_Dialog(QtGui.QWidget):
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.pushButton_2.hide)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.subprocess)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.showDialog)
-        #QtCore.QObject.connect(self.radioButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.bwThread,setdoctype)
-     #   QtCore.QObject.connect(self.radioButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.bwThread , setdoctype2)
+
         QtCore.QMetaObject.connectSlotsByName(Dialog)
 
     def retranslateUi(self, Dialog):
-        Dialog.setWindowTitle(_translate("Dialog", "word文档批量替换软件", None))
-        self.radioButton.setText(_translate("Dialog", ".doc（适用于Office2003及以下版本创建的文档）", None))
-        self.radioButton_2.setText(_translate("Dialog", ".docx（适用于Office2007及以上版本创建的文档）", None))
+        Dialog.setWindowTitle(_translate("Dialog", "文档批量替换软件", None))
+        self.radioButton.setText(_translate("Dialog", ".doc", None))
+        self.radioButton_2.setText(_translate("Dialog", ".docx", None))
+        self.radioButton_3.setText(_translate("Dialog", ".xls", None))
+        self.radioButton_4.setText(_translate("Dialog", ".xlsx", None))
+        self.radioButton_5.setText(_translate("Dialog", ".txt", None))
         self.textEdit.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -139,6 +147,12 @@ class Ui_Dialog(QtGui.QWidget):
             line=[1,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         elif self.radioButton_2.isChecked():
             line=[2,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
+        elif self.radioButton_3.isChecked():
+            line=[3,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
+        elif self.radioButton_4.isChecked():
+            line=[4,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
+        elif self.radioButton_5.isChecked():
+            line=[5,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         else:
             line=[]
         #print line[1]
