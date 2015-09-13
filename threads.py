@@ -48,6 +48,11 @@ class BigWorkThread(QtCore.QThread):
         #        print dirname+"-----"
             if not os.path.isdir(path+"\\..\\NewDocFiles"):
                 os.mkdir(path+"\\..\\NewDocFiles")
+            directoryname = directory.split(path)[-1]
+            filenameout=path+"\\..\\NewDocFiles"+directoryname+"\\"+filename
+                    
+            if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
+                os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
             for filename in filenames:
                 
       #          print 'Directory',dirnames

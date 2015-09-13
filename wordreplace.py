@@ -159,7 +159,9 @@ class Ui_Dialog(QtGui.QWidget):
     def finish_show(self,errorlist):
        
         
-        self.txt = self.txt + u"- - - - - - - - - - - \n批量替换结束！\n以下个文件替换时发生错误：\n"
+        self.txt = self.txt + u"- - - - - - - - - - - \n批量替换结束！\n"
+        if errorlist:
+            self.txt = self.txt + u"以下个文件替换时发生错误：\n"
         self.txt = self.txt +errorlist.decode('gbk')
         self.textEdit.setText(self.txt)
         self.label_4.setText(_translate("Dialog", "替换成功！", None))
