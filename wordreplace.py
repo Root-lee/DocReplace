@@ -7,7 +7,7 @@
 # WARNING! All changes made in this file will be lost!
 
 from PyQt4 import QtCore, QtGui
-import sys ,os
+import sys ,os 
 from threads import BigWorkThread
 
 try:
@@ -27,8 +27,10 @@ except AttributeError:
 class Ui_Dialog(QtGui.QWidget):
     def  __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
+        self.txt = u"- - - - - - - - - - - - - - - - - - - - -\n- Word文档批量替换工具1.0   ---Root lee \n- - - - - - - - - - - - - - - - - - - - -\n"
         self.setupUi(self)
-        self.retranslateUi(self)    
+        self.retranslateUi(self)
+        self.setWindowIcon(QtGui.QIcon('Word.png'))
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
         Dialog.resize(399, 348)
@@ -116,7 +118,7 @@ class Ui_Dialog(QtGui.QWidget):
 "</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Word文档批量替换软件 1.0   </p>\n"
 "<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">         ---Powered by Root lee</p></body></html>", None))
-        self.textEdit.setText("i love you")
+        self.textEdit.setText(self.txt)
         self.label_3.setText(_translate("Dialog", "   选择文件类型：", None))
         self.pushButton.setText(_translate("Dialog", "选择目录", None))
         self.label.setText(_translate("Dialog", "将", None))
@@ -124,14 +126,14 @@ class Ui_Dialog(QtGui.QWidget):
         self.pushButton_2.setText(_translate("Dialog", "确定", None))
         self.label_4.setText(_translate("Dialog", "正在替换..", None))
         self.label_4.hide()
-        self.lineEdit_2.setText(u'爱')
-        self.lineEdit_3.setText(u'恨')
+        self.lineEdit_2.setText(u'')
+        self.lineEdit_3.setText(u'')
         
     def subprocess(self):
         #from threads import BigWorkThread
         #新建对象
 
-        print str(self.lineEdit.text().toLocal8Bit())
+       # print str(self.lineEdit.text().toLocal8Bit())
         #line=[self.lineEdit.text(),self.lineEdit_2.text(),self.lineEdit_3.text()]
         if self.radioButton.isChecked():
             line=[1,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
@@ -139,27 +141,38 @@ class Ui_Dialog(QtGui.QWidget):
             line=[2,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         else:
             line=[]
-        print line[1]
+        #print line[1]
         self.bwThread = BigWorkThread(line)
         #self.changecheck()
         #self.bwThread.whichischeck = 1
         #开始执行run()函数里的内容
         self.connect(self.bwThread,QtCore.SIGNAL("where"),self.update)
-        self.connect(self.bwThread,QtCore.SIGNAL("what"),self.update2)
-        
+        self.connect(self.bwThread,QtCore.SIGNAL("showtxt"),self.showtxt)
+        self.connect(self.bwThread,QtCore.SIGNAL("finish_show"),self.finish_show)
+        self.connect(self.bwThread,QtCore.SIGNAL("finddocfile"),self.finddocfile)
         self.bwThread.start()
     def update(self,where):
         self.progressBar.setProperty("value", where)
-
-    def update2(self,what):
-        pass
+    def finddocfile(self,i):
+        self.txt = u"一共发现 %d 个文件..\n" %i
+        self.textEdit.setText(self.txt)
+    def finish_show(self,errorlist):
+       
+        
+        self.txt = self.txt + u"- - - - - - - - - - - \n批量替换结束！\n以下个文件替换时发生错误：\n"
+        self.txt = self.txt +errorlist.decode('gbk')
+        self.textEdit.setText(self.txt)
+        self.label_4.setText(_translate("Dialog", "替换成功！", None))
+    def showtxt(self,what):
+ 
+        self.txt = self.txt + what.decode('gbk')+u"替换成功！\n"
+        self.textEdit.setText(self.txt)
     def showDialog(self):
 
         filename = QtGui.QFileDialog.getExistingDirectory(self, 'Open file','/home')
         
         self.lineEdit.setText("%s" %filename)
-        #b = self.lineEdit.text().toLocal8Bit()
-        #print str(b)
+
 app = QtGui.QApplication(sys.argv)
 qb = Ui_Dialog()
 qb.show()
