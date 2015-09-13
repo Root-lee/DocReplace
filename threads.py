@@ -46,13 +46,13 @@ class BigWorkThread(QtCore.QThread):
        #     for dirname in dirnames:
         #        #self.getallfile(directory+"\\"+dirname)
         #        print dirname+"-----"
-            if not os.path.isdir(path+"\\..\\NewDocFiles"):
-                os.mkdir(path+"\\..\\NewDocFiles")
+        #    if not os.path.isdir(path+"\\..\\NewDocFiles"):
+       #         os.mkdir(path+"\\..\\NewDocFiles")
             directoryname = directory.split(path)[-1]
             filenameout=path+"\\..\\NewDocFiles"+directoryname+"\\"+filename
                     
-            if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
-                os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
+          #  if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
+        #        os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
             for filename in filenames:
                 
       #          print 'Directory',dirnames
@@ -61,10 +61,10 @@ class BigWorkThread(QtCore.QThread):
                    try:
                     filenamein=directory+"\\"+filename
                     directoryname = directory.split(path)[-1]
-                    filenameout=path+"\\..\\NewDocFiles"+directoryname+"\\"+filename
+                 #   filenameout=path+"\\..\\NewDocFiles"+directoryname+"\\"+filename
                     
-                    if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
-                        os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
+                 #   if not os.path.isdir(path+"\\..\\NewDocFiles"+directoryname):
+                  #      os.mkdir(path+"\\..\\NewDocFiles"+directoryname)
                    
                     doc = w.Documents.Open( FileName = filenamein )
             
@@ -82,7 +82,8 @@ class BigWorkThread(QtCore.QThread):
 
 
                     # 关闭
-                    doc.SaveAs(filenameout)
+                    #doc.SaveAs(filenameout)
+                    doc.Save()
                     doc.Close()
                  
                     count=count+1

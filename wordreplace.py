@@ -27,7 +27,7 @@ except AttributeError:
 class Ui_Dialog(QtGui.QWidget):
     def  __init__(self, parent = None):
         QtGui.QWidget.__init__(self, parent)
-        self.txt = u"- - - - - - - - - - - - - - - - - - - - -\n- Word文档批量替换工具1.0   ---Root lee \n- - - - - - - - - - - - - - - - - - - - -\n"
+        self.txt = u"- - - - - - - - - - - - - - - - - - - - -\n- Word文档批量替换工具1.1   ---Root lee \n- - - - - - - - - - - - - - - - - - - - -\n"
         self.setupUi(self)
         self.retranslateUi(self)
         self.setWindowIcon(QtGui.QIcon('Word.png'))
