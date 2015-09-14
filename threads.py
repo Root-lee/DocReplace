@@ -78,9 +78,9 @@ class BigWorkThread(QtCore.QThread):
                         self.emit(QtCore.SIGNAL("where"),j)
                         self.emit(QtCore.SIGNAL("showtxt"),filename)
                     except:
-                       
-						self.errorlist = self.errorlist + "\n    error:"+directory+"\\"+filename
-						count =count + 1
+
+                        self.errorlist = self.errorlist + "\n    error:"+directory+"\\"+filename
+                        count =count + 1
                 else:
                     pass
         w.Quit()
