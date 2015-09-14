@@ -1,11 +1,5 @@
 # -*- coding: utf-8 -*-
 
-# Form implementation generated from reading ui file 'wordreplace.ui'
-#
-# Created by: PyQt4 UI code generator 4.11.4
-#
-# WARNING! All changes made in this file will be lost!
-
 from PyQt4 import QtCore, QtGui
 import sys ,os 
 from threads import BigWorkThread
@@ -120,12 +114,7 @@ class Ui_Dialog(QtGui.QWidget):
         self.radioButton_3.setText(_translate("Dialog", ".xls", None))
         self.radioButton_4.setText(_translate("Dialog", ".xlsx", None))
         self.radioButton_5.setText(_translate("Dialog", ".txt", None))
-        self.textEdit.setHtml(_translate("Dialog", "<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
-"<html><head><meta name=\"qrichtext\" content=\"1\" /><style type=\"text/css\">\n"
-"p, li { white-space: pre-wrap; }\n"
-"</style></head><body style=\" font-family:\'SimSun\'; font-size:9pt; font-weight:400; font-style:normal;\">\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">Word文档批量替换软件 1.0   </p>\n"
-"<p style=\" margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\">         ---Powered by Root lee</p></body></html>", None))
+        
         self.textEdit.setText(self.txt)
         self.label_3.setText(_translate("Dialog", "   选择文件类型：", None))
         self.pushButton.setText(_translate("Dialog", "选择目录", None))
@@ -139,10 +128,7 @@ class Ui_Dialog(QtGui.QWidget):
         
     def subprocess(self):
         #from threads import BigWorkThread
-        #新建对象
 
-       # print str(self.lineEdit.text().toLocal8Bit())
-        #line=[self.lineEdit.text(),self.lineEdit_2.text(),self.lineEdit_3.text()]
         if self.radioButton.isChecked():
             line=[1,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         elif self.radioButton_2.isChecked():
@@ -155,38 +141,36 @@ class Ui_Dialog(QtGui.QWidget):
             line=[5,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         else:
             line=[]
-        #print line[1]
         self.bwThread = BigWorkThread(line)
-        #self.changecheck()
-        #self.bwThread.whichischeck = 1
-        #开始执行run()函数里的内容
+
         self.connect(self.bwThread,QtCore.SIGNAL("where"),self.update)
         self.connect(self.bwThread,QtCore.SIGNAL("showtxt"),self.showtxt)
         self.connect(self.bwThread,QtCore.SIGNAL("finish_show"),self.finish_show)
         self.connect(self.bwThread,QtCore.SIGNAL("finddocfile"),self.finddocfile)
+		#开始执行run()函数里的内容
         self.bwThread.start()
+	#更新进度条
     def update(self,where):
         self.progressBar.setProperty("value", where)
+	#显示一共发现多少相应文件
     def finddocfile(self,i):
         self.txt = u"一共发现 %d 个文件..\n" %i
         self.textEdit.setText(self.txt)
+	#子进程结束后的界面更新以及显示错误文件
     def finish_show(self,errorlist):
-       
-        
         self.txt = self.txt + u"- - - - - - - - - - - \n批量替换结束！\n"
         if errorlist:
             self.txt = self.txt + u"以下个文件替换时发生错误：\n"
         self.txt = self.txt +errorlist.decode('gbk')
         self.textEdit.setText(self.txt)
         self.label_4.setText(_translate("Dialog", "替换成功！", None))
+    
     def showtxt(self,what):
- 
-        self.txt = self.txt + what.decode('gbk')+u"替换成功！\n"
+        self.txt = self.txt + what.decode('gbk') + u"替换成功！\n"
         self.textEdit.setText(self.txt)
+    #文件打开框
     def showDialog(self):
-
         filename = QtGui.QFileDialog.getExistingDirectory(self, 'Open file','/home')
-        
         self.lineEdit.setText("%s" %filename)
 
 app = QtGui.QApplication(sys.argv)
