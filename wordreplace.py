@@ -97,6 +97,9 @@ class Ui_Dialog(QtGui.QWidget):
         self.label_4 = QtGui.QLabel(Dialog)
         self.label_4.setGeometry(QtCore.QRect(323, 140, 61, 21))
         self.label_4.setObjectName(_fromUtf8("label_4"))
+        self.label_5 = QtGui.QLabel(Dialog)
+        self.label_5.setGeometry(QtCore.QRect(150, 180, 154, 41))
+        self.label_5.setObjectName(_fromUtf8("label_5"))
 
         self.retranslateUi(Dialog)
         QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.start_update_ui)
@@ -120,6 +123,8 @@ class Ui_Dialog(QtGui.QWidget):
         self.pushButton_2.setText(_translate("Dialog", "确定", None))
         self.label_4.setText(_translate("Dialog", "正在替换..", None))
         self.label_4.hide()
+        self.label_5.setText(_translate("Dialog", "恭喜你，替换完成！", None))
+        self.label_5.hide()
         self.lineEdit_2.setText(u'')
         self.lineEdit_3.setText(u'')
         
@@ -154,6 +159,7 @@ class Ui_Dialog(QtGui.QWidget):
         if button==QtGui.QMessageBox.Ok:
             self.progressBar.show()  #显示进度条
             self.label_4.show()   #显示“替换中”文本
+            self.label_5.hide()  #隐藏替换完成按钮
             self.pushButton_2.hide()   #隐藏“确定”按钮
             self.subprocess()   #创建新进程
         elif button==QtGui.QMessageBox.Cancel:
@@ -178,7 +184,10 @@ class Ui_Dialog(QtGui.QWidget):
                 pass
         self.txt = self.txt +errorlist.decode('gbk')
         self.textEdit.setText(self.txt)
-        self.label_4.setText(_translate("Dialog", "替换成功！", None))
+        #self.label_4.setText(_translate("Dialog", "替换成功！", None))
+        self.pushButton_2.show()   #显示确认按钮，以便进行下次替换
+        self.label_4.hide()   #隐藏“替换中”文本
+        self.label_5.show()
     
     def showtxt(self,what):
         self.txt = self.txt + what.decode('gbk') + u"替换成功！\n"
