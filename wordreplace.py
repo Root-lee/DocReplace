@@ -150,10 +150,14 @@ class Ui_Dialog(QtGui.QWidget):
 
     #点击确定后，UI的更新和子进程的调用
     def start_update_ui(self):
-        self.progressBar.show()  #显示进度条
-        self.label_4.show()   #显示“替换中”文本
-        self.pushButton_2.hide()   #隐藏“确定”按钮
-        self.subprocess()   #创建新进程
+        button=QtGui.QMessageBox.question(self,u"警告",u"本操作会直接修改所选目录里的文件，\n请确保重要文件已经备份！\n是否继续？",QtGui.QMessageBox.Ok|QtGui.QMessageBox.Cancel,QtGui.QMessageBox.Ok)
+        if button==QtGui.QMessageBox.Ok:
+            self.progressBar.show()  #显示进度条
+            self.label_4.show()   #显示“替换中”文本
+            self.pushButton_2.hide()   #隐藏“确定”按钮
+            self.subprocess()   #创建新进程
+        elif button==QtGui.QMessageBox.Cancel:
+            pass
     #更新进度条
     def update(self,where):
         self.progressBar.setProperty("value", where)
