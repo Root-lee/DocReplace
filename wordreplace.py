@@ -99,10 +99,7 @@ class Ui_Dialog(QtGui.QWidget):
         self.label_4.setObjectName(_fromUtf8("label_4"))
 
         self.retranslateUi(Dialog)
-        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.progressBar.show)
-        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.label_4.show)
-        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.pushButton_2.hide)
-        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.subprocess)
+        QtCore.QObject.connect(self.pushButton_2, QtCore.SIGNAL(_fromUtf8("clicked()")), self.start_update_ui)
         QtCore.QObject.connect(self.pushButton, QtCore.SIGNAL(_fromUtf8("clicked()")), self.showDialog)
 
         QtCore.QMetaObject.connectSlotsByName(Dialog)
@@ -141,15 +138,23 @@ class Ui_Dialog(QtGui.QWidget):
             line=[5,str(self.lineEdit.text().toLocal8Bit()),str(self.lineEdit_2.text().toLocal8Bit()),str(self.lineEdit_3.text().toLocal8Bit())]
         else:
             line=[]
+        #创建子进程
         self.bwThread = BigWorkThread(line)
 
         self.connect(self.bwThread,QtCore.SIGNAL("where"),self.update)
         self.connect(self.bwThread,QtCore.SIGNAL("showtxt"),self.showtxt)
         self.connect(self.bwThread,QtCore.SIGNAL("finish_show"),self.finish_show)
         self.connect(self.bwThread,QtCore.SIGNAL("finddocfile"),self.finddocfile)
-		#开始执行run()函数里的内容
+		#开始执行子进程run()函数里的内容
         self.bwThread.start()
-	#更新进度条
+
+    #点击确定后，UI的更新和子进程的调用
+    def start_update_ui(self):
+        self.progressBar.show()  #显示进度条
+        self.label_4.show()   #显示“替换中”文本
+        self.pushButton_2.hide()   #隐藏“确定”按钮
+        self.subprocess()   #创建新进程
+    #更新进度条
     def update(self,where):
         self.progressBar.setProperty("value", where)
 	#显示一共发现多少相应文件
