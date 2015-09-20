@@ -27,7 +27,7 @@ class Ui_Dialog(QtGui.QWidget):
         self.setWindowIcon(QtGui.QIcon('Word.png'))
     def setupUi(self, Dialog):
         Dialog.setObjectName(_fromUtf8("Dialog"))
-        Dialog.resize(399, 348)
+        Dialog.setFixedSize(399, 348)
         icon = QtGui.QIcon()
         icon.addPixmap(QtGui.QPixmap(_fromUtf8(":/新前缀/Word.png")), QtGui.QIcon.Normal, QtGui.QIcon.Off)
         Dialog.setWindowIcon(icon)
